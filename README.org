@@ -15,7 +15,9 @@ and compute metrics (i.e. ~pearson_and_spearman~) in ~custom_processors.py~.
 All model configuration happens in a ~JSON~ file, which is then copied to the model output directory.
 
 * Example
-Set up your config file as follows:
+Define your custom processors and metrics in ~custom_processors.py~.
+
+Then, set up your config file as follows:
 #+BEGIN_SRC json
 {
     "task_name": "CustomSTS",

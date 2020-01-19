@@ -2,10 +2,8 @@
 Helpful utils for my workflow using the HuggingFace Transformers library. This just extends
 the GLUE Task Example provided in the library in a few ways that help me in my workflow: 
 
-- Easily defining Custom Data Processors and Metrics without having to install the transformers
-library in editable mode
-- Configuring models via JSON configuration files that are automatically copied over to the model
-output directory
+- Easily defining Custom Data Processors and Metrics without having to install the transformers library in editable mode
+- Configuring models via JSON configuration files that are automatically copied over to the model output directory
 
 The code is a modified version of the [[https://github.com/huggingface/transformers/blob/master/examples/run_glue.py][example GLUE script]] provided in the [[https://github.com/huggingface/transformers][HuggingFace transformers repository]].
 

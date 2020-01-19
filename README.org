@@ -1,0 +1,79 @@
+* transformers-resources ⚗
+Helpful utils for my workflow using the HuggingFace Transformers library. This just extends
+the GLUE Task Example provided in the library in a few ways that help me in my workflow: 
+
+- Easily defining Custom Data Processors and Metrics without having to install the transformers
+library in editable mode
+- Configuring models via JSON configuration files that are automatically copied over to the model
+output directory
+
+The code is a modified version of the [[https://github.com/huggingface/transformers/blob/master/examples/run_glue.py][example GLUE script]] provided in the [[https://github.com/huggingface/transformers][HuggingFace transformers repository]].
+
+** Custom Processors & Compute Metrics
+Define your own data processors (i.e. for ~.tsv~ files), output modes (i.e. ~regression~), 
+and compute metrics (i.e. ~pearson_and_spearman~) in ~custom_processors.py~.
+
+** JSON-based model configuration
+All model configuration happens in a ~JSON~ file, which is then copied to the model output directory.
+
+* Example
+Set up your config file as follows:
+#+BEGIN_SRC json
+{
+    "task_name": "CustomSTS",
+    "model_type": "bert",
+    "data_dir": "/tmp/stsdata/",
+    "model_name_or_path": "bert-base-cased",
+    "output_dir": "/tmp/stsmodel/",
+    "config_name": "",
+    "tokenizer_name": "",
+    "cache_dir": "",
+    "max_seq_length": 128,
+    "do_train": true,
+    "do_eval": true,
+    "evaluate_during_training": false,
+    "do_lower_case": true,
+    "per_gpu_train_batch_size": 8,
+    "per_gpu_eval_batch_size": 8,
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.0,
+    "adam_epsilon": 1e-08,
+    "max_grad_norm": 1.0,
+    "num_train_epochs": 3.0,
+    "max_steps": -1,
+    "warmup_steps": 0,
+    "logging_steps": 50,
+    "save_steps": 50,
+    "eval_all_checkpoints": true,
+    "no_cuda": false,
+    "overwrite_output_dir": true,
+    "overwrite_cache": true,
+    "seed": 42,
+    "fp16": false,
+    "fpt_opt_level": "O1",
+    "local_rank": -1,
+    "server_ip": "",
+    "server_port": "",
+    "n_gpu": 4,
+    "device": "cuda",
+    "output_mode": "regression",
+    "label_list": [
+        null
+    ],
+    "num_labels": 1,
+    "train_batch_size": 16
+}
+#+END_SRC
+
+
+Then, all you need to do to train + evaluate the model is the following:
+#+BEGIN_SRC python
+import SequenceClassificationUtils as U
+results = U.glue('config.json')
+#+END_SRC
+
+This will train and evaluate the model as specified in the config file.
+
+You can use the ~glue_predict~ method in ~SequenceClassificationUtils~ to easily return predictions
+from single sentence pairs or lists of sentences. 

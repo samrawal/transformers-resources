@@ -1,3 +1,4 @@
+import pickle
 import logging
 import os
 
@@ -24,12 +25,12 @@ class CustomSTSProcessor(DataProcessor):
     def get_train_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+            '/home/scrawal/MS/qasc/siagen/sia_traindev.p', "train")
 
     def get_dev_examples(self, data_dir):
         """See base class."""
         return self._create_examples(
-            self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+            '/home/scrawal/MS/qasc/siagen/sia_traindev.p', "dev")
 
     def get_file_examples(self, data_dir, filename, label='data'):
         """Same as get_{train,dev}_examples, but with a specific file"""
@@ -40,9 +41,15 @@ class CustomSTSProcessor(DataProcessor):
         """See base class."""
         return [None]
 
-    def _create_examples(self, lines, set_type):
+    def _create_examples(self, path, set_type):
         """Creates examples for the training and dev sets."""
-        examples = []
+        train, dev = pickle.load(open(path, 'rb'))
+        if set_type == 'train':
+            lines = train
+        else:
+            lines = dev
+
+        examples = []    
         for (i, line) in enumerate(lines):
             if i == 0:
                 continue

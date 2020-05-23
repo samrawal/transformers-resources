@@ -166,8 +166,6 @@ def load_tokenizer_model(args):
     logger.info("Training/evaluation parameters %s", args)
 
     train_dataset = load_and_cache_examples(args, args['task_name'], tokenizer, evaluate=False)
-    global_step, tr_loss = train(args, train_dataset, model, tokenizer)
-    logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 
     return config, tokenizer, model
     
